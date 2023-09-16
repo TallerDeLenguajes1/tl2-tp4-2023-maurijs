@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using webapi;
 
 namespace tl2_tp4_2023_maurijs.Controllers;
 
@@ -18,6 +19,7 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
+    //Si el cliente tiene configurado para consumir como Get entrara por aca 
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
