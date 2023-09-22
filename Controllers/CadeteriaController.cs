@@ -6,20 +6,15 @@ namespace webapi.Controllers;
 public class CadeteriaController : ControllerBase
 {
     // el objeto quedara guardado para seguir trabajandolo
-    private static Cadeteria cadeteriaSingleTon;
     private Cadeteria cadeteria;
 
-    public static Cadeteria GetCadeteria()
-    {
-        return cadeteriaSingleTon;
-    }
     private readonly ILogger<CadeteriaController> _logger;
 
     public CadeteriaController(ILogger<CadeteriaController> logger)
     {
         _logger = logger;
         //Inicializo a traves del controlador
-        cadeteriaSingleTon = cadeteriaSingleTon.GetCadeteria();
+        cadeteria = Cadeteria.GetCadeteria(); // GetCadeteria es static asi que puedo usar el metodo sin crear una instancia de la clase
     }
 
     //metodo que se consume del controlador
@@ -57,13 +52,29 @@ public class CadeteriaController : ControllerBase
         return Ok(pedidoModificado);
     }
 
-    [Get] GetPedidos() => Retorna una lista de Pedidos
-    [Get] GetCadetes() => Retorna una lista de Cadetes
-    [Get] GetInforme() => Retorna un objeto Informe
-    [Post] AgregarPedido(Pedido pedido)
-    [Put] AsignarPedido(int idPedido, int idCadete)
-    [Put] CambiarEstadoPedido(int idPedido,int NuevoEstado)
-    [Put] CambiarCadetePedido(int idPedido,int idNuevoCadete)
+    [HttpGet("Informe")]
+    public ActionResult<Informe> GetInforme()
+    {
+        var informe = new Informe(cadeteriaSingleTon);
+        return Ok(informe);
+    }   
 
-
+    [HttpPut("AsignarPedido")]
+    public ActionResult<Pedido> AsignarPedido(int idPedido, int idCadete)
+    {
+        var pedido = cadeteriaSingleTon.AsignarCadeteAPedido(idPedido, idCadete);
+        return Ok(pedido);
+    }
+    [HttpPut("CambiarEstadoPedido")]
+    public ActionResult<Pedido> CambiarEstadoPedido(int idPedido,int NuevoEstado)
+    {
+        var pedidoCambiado = cadeteriaSingleTon.CambiarEstadoPedido(idPedido, NuevoEstado);
+        return Ok(pedidoCambiado);
+    }
+    [HttpPut("CambiarCadetePedido")]
+    public ActionResult<Pedido> CambiarCadetePedido(int idPedido,int idNuevoCadete)
+    {
+        var pedido = cadeteriaSingleTon.ReasignarPedido(idPedido, idNuevoCadete);
+        return Ok(pedido);
+    }
 }

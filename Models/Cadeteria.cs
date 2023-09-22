@@ -61,30 +61,28 @@ namespace webapi
         }
 
 
-        public bool AsignarCadeteAPedido(int NumPedido, int  IDcadete)
+        public Pedido AsignarCadeteAPedido(int NumPedido, int  IDcadete)
         {
             var pedido = GetPedidoByID(NumPedido);
             var cadete = GetCadeteByID(IDcadete);
             pedido.Cadete = cadete;
-            if (cadete == null || pedido == null)
-            {
-                return false;
-            }
-            return true;
+            return pedido;
         } 
 
-        public bool ReasignarPedido(int NumPedido, int IdNuevoCadete)
+        public Pedido ReasignarPedido(int NumPedido, int IdCadete)
         {
-            if (ContieneCadete(IdNuevoCadete))
+            Pedido pedido = null;
+            Cadete cadete = null;
+            if (ContieneCadete(IdCadete))
             {
                 if (ContienePedido(NumPedido))
                 {
-                    AsignarCadeteAPedido(NumPedido, IdNuevoCadete);
-                    return true;
+                    pedido = GetPedidoByID(NumPedido);
+                    cadete = GetCadeteByID(IdCadete);
+                    pedido.Cadete = cadete;
                 }
-            
             }
-            return false;
+            return pedido;
         }
 
         public void DarAltaPedido(int NumPedido) 
@@ -101,6 +99,23 @@ namespace webapi
         {
             var pedido = GetPedidoByID(NumPedido);
             pedido.Estado = Estado.Recibido;
+        }
+        public Pedido CambiarEstadoPedido(int idPedido, int NuevoEstado)
+        {
+            var pedido = GetPedidoByID(idPedido);
+            // Si el pedido fue cancelado o ya fue entregado no se puede cambiar el estado
+            if (pedido.Estado == Estado.Aceptado){
+                switch (NuevoEstado)
+                {
+                    case 0:
+                        PedidoEntregado(idPedido);
+                        break;
+                    case 1:
+                        CancelarPedido(idPedido);
+                        break;
+                }
+            }
+            return pedido;
         }
 
         public bool ContienePedido(int NumPedido)
@@ -190,19 +205,7 @@ namespace webapi
             } 
             return cantidad;
         }
-
-        public Cadeteria GetCadeteria()
-        {
-            return this;
-        }
-        public static Cadeteria GetCadeteria()
-    {
-        if (cadeteria==null)
-        {
-            cadeteria = new Cadeteria();
-        }
-        return cadeteria;
-    }
+     
     }
     
 }
