@@ -2,6 +2,7 @@ namespace webapi
 {
     public class Cadeteria
     {
+        private static Cadeteria cadeteriaSingleTon;
         private string nombre;
         private string telefono;
         private List<Cadete> listadoCadetes;
@@ -29,17 +30,36 @@ namespace webapi
         }
 
         //Metodos
+
+        public static Cadeteria GetCadeteria()
+        {
+            if (cadeteriaSingleTon == null)
+            {
+                cadeteriaSingleTon = new Cadeteria("Nombre Cadeteria","3858404142");
+            }
+            return cadeteriaSingleTon;
+        }
+
         public void CrearPedido(int numero, float monto, string observacion,string nombre, string telefono, string direccion, string referenciaDireccion)
         {
             var cliente = new Cliente(nombre, telefono, direccion, referenciaDireccion);
             var pedido = new Pedido(numero, monto, observacion, Estado.Aceptado, cliente);
             listadoPedidos.Add(pedido);
         }
-        public void CrearPedido(Pedido P)
+        public Pedido CrearPedido(Pedido P)
         {
             
             ListadoPedidos.Add(P);
+            P.Numero = ListadoPedidos.Count;
+            return P;
         }
+         public Pedido ModificarPedido(Pedido pedido)
+        {
+        var pedidoAModificar = GetPedidoByID(pedido.Numero);
+        pedidoAModificar.Observacion =  pedido.Observacion;
+        return pedidoAModificar;
+        }
+
 
         public bool AsignarCadeteAPedido(int NumPedido, int  IDcadete)
         {
@@ -108,25 +128,19 @@ namespace webapi
 
         public Cadete GetCadeteByID(int id)
         {
-            foreach (var cadete in listadoCadetes)
+            return ListadoCadetes.FirstOrDefault(Cadete => Cadete.Id == id);
+            /*foreach (var cadete in listadoCadetes)
             {
                 if (cadete.Id == id)
                 {
                     return cadete;
                 }
             }
-            return null;
+            return null;*/
         }
         public Pedido GetPedidoByID(int id)
         {
-            foreach (var pedido in listadoPedidos)
-            {
-                if (pedido.Numero == id)
-                {
-                    return pedido;
-                }
-            }
-            return null;
+            return ListadoPedidos.FirstOrDefault(Pedido => Pedido.Numero == id);
         }
 
         public float JornalACobrarCadete(int IdCadete)
@@ -181,6 +195,14 @@ namespace webapi
         {
             return this;
         }
+        public static Cadeteria GetCadeteria()
+    {
+        if (cadeteria==null)
+        {
+            cadeteria = new Cadeteria();
+        }
+        return cadeteria;
+    }
     }
     
 }

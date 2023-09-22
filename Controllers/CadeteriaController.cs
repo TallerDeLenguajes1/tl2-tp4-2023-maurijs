@@ -7,11 +7,10 @@ public class CadeteriaController : ControllerBase
 {
     // el objeto quedara guardado para seguir trabajandolo
     private static Cadeteria cadeteriaSingleTon;
-    // private Cadeteria cadeteria;
+    private Cadeteria cadeteria;
 
     public static Cadeteria GetCadeteria()
     {
-        if (cadeteriaSingleTon == null) return null;
         return cadeteriaSingleTon;
     }
     private readonly ILogger<CadeteriaController> _logger;
@@ -27,11 +26,11 @@ public class CadeteriaController : ControllerBase
     [HttpGet] // no posee parametros
     public ActionResult<string> GetNombreCadeteria()
     {
-        return Ok("cadeteria de prueba");
+        return Ok(cadeteria.Nombre);
     }
+
     [HttpGet]
     [Route("Pedidos")] // debe tener este parametro, ya q no puedo tener dos get sin parametro
-
     public ActionResult<IEnumerable<Pedido>> GetPedidos()
     {
         var pedidos = cadeteriaSingleTon.ListadoPedidos;
@@ -44,18 +43,27 @@ public class CadeteriaController : ControllerBase
             return NotFound(); // Devuelve una respuesta HTTP 404 Not Found
         }
     }
-    /*public ActionResult<IEnumerable<Pedido>> AddPedido(Pedido P)
+    [HttpPost("AddPedido")]
+    public ActionResult<Pedido> PostPedido(Pedido pedido)
     {
-        cadeteriaSingleTon.CrearPedido(P);
-    }*/
-    /*public Get()
-    {
-       
-    }*/
+        var nuevoPedido = cadeteria.CrearPedido(pedido);
+        return Ok(nuevoPedido);
+    }
 
-    /*[HttpPost] //Agrega datos
-    public ActionResult<Pedido> UpdatePedido(Pedido pedido)
+    [HttpPut("UpdatePedido")]
+    public ActionResult<Pedido> PutPedido(Pedido pedido)
     {
-        var updPed = cadeteria.UpdatePedido(pedido)
-    }*/
+        var pedidoModificado = cadeteria.ModificarPedido(pedido);
+        return Ok(pedidoModificado);
+    }
+
+    [Get] GetPedidos() => Retorna una lista de Pedidos
+    [Get] GetCadetes() => Retorna una lista de Cadetes
+    [Get] GetInforme() => Retorna un objeto Informe
+    [Post] AgregarPedido(Pedido pedido)
+    [Put] AsignarPedido(int idPedido, int idCadete)
+    [Put] CambiarEstadoPedido(int idPedido,int NuevoEstado)
+    [Put] CambiarCadetePedido(int idPedido,int idNuevoCadete)
+
+
 }
