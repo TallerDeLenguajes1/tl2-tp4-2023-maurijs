@@ -11,6 +11,7 @@ namespace webapi
         public string Direccion { get => direccion; set => direccion = value; }
         public string ReferenciaDireccion { get => referenciaDireccion; set => referenciaDireccion = value; }
     
+        public Cliente(){}
         public Cliente(string nombre, string telefono, string direccion, string referenciaDireccion)
         {
             this.nombre = nombre;

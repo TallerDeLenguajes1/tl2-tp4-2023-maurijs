@@ -7,7 +7,6 @@ namespace webapi
         private string telefono;
         private List<Cadete> listadoCadetes;
         private List<Pedido> listadoPedidos;
-        private AccesoADatosCadeteria accesoADatosCadeteria;
         private AccesoADatosCadetes accesoADatosCadetes;
         private AccesoADatosPedidos accesoADatosPedidos;
 
@@ -17,6 +16,7 @@ namespace webapi
         public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
         //Constructores
+        public Cadeteria(){}
         public Cadeteria(string nombre, string telefono)
         {
             this.nombre = nombre;
@@ -51,7 +51,7 @@ namespace webapi
             if (instance == null)
             {
                 var accesoADatosCadeteria = new AccesoADatosCadeteria();
-                instance = accesoADatosCadeteria.Obtener();
+                instance = accesoADatosCadeteria.ObtenerCadeteria();
                 instance.accesoADatosCadetes = new AccesoADatosCadetes();
                 instance.accesoADatosPedidos = new AccesoADatosPedidos();
                 instance.CargarCadetes();

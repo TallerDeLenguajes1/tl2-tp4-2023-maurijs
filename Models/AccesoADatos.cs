@@ -4,9 +4,10 @@ namespace webapi
     //todos los accesos son JSON
     public class AccesoADatosCadeteria
     {
-        public  Cadeteria Obtener()
+        public AccesoADatosCadeteria(){}
+        public  Cadeteria ObtenerCadeteria()
         {
-            List<Cadeteria> cadeterias = null;
+            var cadeteria = new Cadeteria("default","0800");
             string DataPath = "cadeteria.json";
             try
             {
@@ -14,23 +15,23 @@ namespace webapi
                 string jsonText = File.ReadAllText(DataPath);
 
                 // Deserializa el JSON en una lista de objetos Cadete
-                cadeterias = JsonSerializer.Deserialize<List<Cadeteria>>(jsonText);
-                Console.WriteLine("Cadetes cargados correctamente");
+                cadeteria = JsonSerializer.Deserialize<Cadeteria>(jsonText);
+                Console.WriteLine("Cadeteria cargada correctamente");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al cargar cadetes desde el archivo JSON: {ex.Message}");
+                Console.WriteLine($"Error al cargar Cadeteria desde el archivo JSON: {ex.Message}");
             }
-
-            return cadeterias[0];
+            return cadeteria;
         }
     }
     public class AccesoADatosCadetes
     { 
+        public AccesoADatosCadetes(){}
         public  List<Cadete> Obtener()
         {
             List<Cadete> cadetes = null;
-            string DataPath = "cadete.json";
+            string DataPath = "cadetes.json";
             try
             {
                 // Lee el contenido del archivo JSON
@@ -50,6 +51,7 @@ namespace webapi
     }
     public class AccesoADatosPedidos
     { 
+        public AccesoADatosPedidos(){}
         public  List<Pedido> Obtener()
         {
             List<Pedido> pedidos = null;
@@ -61,11 +63,11 @@ namespace webapi
 
                 // Deserializa el JSON en una lista de objetos Cadete
                 pedidos = JsonSerializer.Deserialize<List<Pedido>>(jsonText);
-                Console.WriteLine("Cadetes cargados correctamente");
+                Console.WriteLine("Pedidos cargados correctamente");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al cargar cadetes desde el archivo JSON: {ex.Message}");
+                Console.WriteLine($"Error al cargar pedidos desde el archivo JSON: {ex.Message}");
             }
             return pedidos;
         }
@@ -86,3 +88,25 @@ namespace webapi
 
     }
 }
+
+/*Por si trabajo con listado de cadeterias
+[
+    {
+        "nombre": "Cadeteria 1",
+        "telefono": " 3858 111111",
+        "listadoCadetes": [],
+        "listadoPedidos": []
+    },
+    {
+        "nombre": "Cadeteria 2",
+        "telefono": " 3858 222222",
+        "listadoCadetes": [],
+        "listadoPedidos": []
+    },
+    {
+        "nombre": "Cadeteria 3",
+        "telefono": " 3858 3333333",
+        "listadoCadetes": [],
+        "listadoPedidos": []
+    }
+]*/

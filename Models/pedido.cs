@@ -23,8 +23,7 @@ namespace webapi
         public float Monto { get => monto; set => monto = value; }
         public Cadete Cadete { get => cadete; set => cadete = value; }
 
-        public Pedido() 
-        { }
+        public Pedido(){}
         public Pedido(int numero, float monto, string observacion, Estado estado, Cliente cliente)
         {
             this.numero = numero;
