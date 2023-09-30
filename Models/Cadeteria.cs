@@ -7,9 +7,9 @@ namespace webapi
         private string telefono;
         private List<Cadete> listadoCadetes;
         private List<Pedido> listadoPedidos;
-        private AccesoADatosCadeteria AccesoADatosCadeteria;
-        private AccesoADatosCadetes AccesoADatosCadetes;
-        private AccesoADatosPedidos AccesoADatosPedidos;
+        private AccesoADatosCadeteria accesoADatosCadeteria;
+        private AccesoADatosCadetes accesoADatosCadetes;
+        private AccesoADatosPedidos accesoADatosPedidos;
 
         public string Nombre { get => nombre; set => nombre = value; }
         public string Telefono { get => telefono; set => telefono = value; }
@@ -32,19 +32,35 @@ namespace webapi
             listadoPedidos = new List<Pedido>();
         }
 
-        //Metodos
-
+        //Metodos para obtener/guardar los datos
+        public void CargarCadetes()
+        {
+            listadoCadetes = accesoADatosCadetes.Obtener();
+        }
+        public void CargarPedidos()
+        {
+            listadoPedidos = accesoADatosPedidos.Obtener();
+        }
+        public void GuardarPedidos()
+        {
+            accesoADatosPedidos.Guardar(ListadoPedidos);
+        }       
+ 
         public static Cadeteria GetInstance()
         {
             if (instance == null)
             {
-                instance = new Cadeteria("Nombre Cadeteria","3858404142");
-                //var Acceso = new AccesoJSON();
-                //instance.ListadoCadetes = Acceso.cargarCadetes();
+                var AccesoADatosCadeteria = new AccesoADatosCadeteria();
+                instance = AccesoADatosCadeteria.Obtener();
+                instance.accesoADatosCadetes = new AccesoADatosCadetes();
+                instance.accesoADatosPedidos = new AccesoADatosPedidos();
+                instance.CargarCadetes();
+                instance.CargarPedidos();
             }
             return instance;
         }
 
+        //Metodos para manipular/crear los datos
         public void CrearPedido(int numero, float monto, string observacion,string nombre, string telefono, string direccion, string referenciaDireccion)
         {
             var cliente = new Cliente(nombre, telefono, direccion, referenciaDireccion);
@@ -56,6 +72,7 @@ namespace webapi
             
             ListadoPedidos.Add(P);
             P.Numero = ListadoPedidos.Count;
+
             
             return P;
         }
@@ -164,6 +181,7 @@ namespace webapi
             return ListadoPedidos.FirstOrDefault(Pedido => Pedido.Numero == id);
         }
 
+        //Metodos para el cadete
         public float JornalACobrarCadete(int IdCadete)
         {
             float Ganancias = Calcular(IdCadete, 1);

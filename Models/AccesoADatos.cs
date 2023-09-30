@@ -69,5 +69,20 @@ namespace webapi
             }
             return pedidos;
         }
+
+        public void Guardar(List<Pedido> Pedidos)
+        {  
+            string DataPath = "pedidos.json";
+            string jsonText = JsonSerializer.Serialize(Pedidos);
+            using (var archivo = new FileStream(DataPath, FileMode.OpenOrCreate))
+            {
+                using (var strWriter = new StreamWriter(archivo))
+                {
+                    strWriter.WriteLine("{0}", jsonText);
+                    strWriter.Close();
+                }
+            }
+        }
+
     }
 }
