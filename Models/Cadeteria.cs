@@ -36,8 +36,8 @@ namespace webapi
             if (instance == null)
             {
                 instance = new Cadeteria("Nombre Cadeteria","3858404142");
-                var Acceso = new AccesoJSON();
-                instance.ListadoCadetes = Acceso.cargarCadetes();
+                //var Acceso = new AccesoJSON();
+                //instance.ListadoCadetes = Acceso.cargarCadetes();
             }
             return instance;
         }
@@ -53,6 +53,7 @@ namespace webapi
             
             ListadoPedidos.Add(P);
             P.Numero = ListadoPedidos.Count;
+            
             return P;
         }
          public Pedido ModificarPedido(Pedido pedido)
