@@ -7,6 +7,9 @@ namespace webapi
         private string telefono;
         private List<Cadete> listadoCadetes;
         private List<Pedido> listadoPedidos;
+        private AccesoADatosCadeteria AccesoADatosCadeteria;
+        private AccesoADatosCadetes AccesoADatosCadetes;
+        private AccesoADatosPedidos AccesoADatosPedidos;
 
         public string Nombre { get => nombre; set => nombre = value; }
         public string Telefono { get => telefono; set => telefono = value; }
