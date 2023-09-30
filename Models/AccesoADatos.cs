@@ -2,8 +2,8 @@ using System.Text.Json;
 namespace webapi
 {
     //todos los accesos son JSON
-    public class AccesoADatosCadeteria 
-    { 
+    public class AccesoADatosCadeteria
+    {
         public  Cadeteria Obtener()
         {
             List<Cadeteria> cadeterias = null;

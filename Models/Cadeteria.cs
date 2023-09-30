@@ -50,8 +50,8 @@ namespace webapi
         {
             if (instance == null)
             {
-                var AccesoADatosCadeteria = new AccesoADatosCadeteria();
-                instance = AccesoADatosCadeteria.Obtener();
+                var accesoADatosCadeteria = new AccesoADatosCadeteria();
+                instance = accesoADatosCadeteria.Obtener();
                 instance.accesoADatosCadetes = new AccesoADatosCadetes();
                 instance.accesoADatosPedidos = new AccesoADatosPedidos();
                 instance.CargarCadetes();
@@ -72,15 +72,13 @@ namespace webapi
             
             ListadoPedidos.Add(P);
             P.Numero = ListadoPedidos.Count;
-
-            
             return P;
         }
          public Pedido ModificarPedido(Pedido pedido)
         {
-        var pedidoAModificar = GetPedidoByID(pedido.Numero);
-        pedidoAModificar.Observacion =  pedido.Observacion;
-        return pedidoAModificar;
+            var pedidoAModificar = GetPedidoByID(pedido.Numero);
+            pedidoAModificar.Observacion =  pedido.Observacion;
+            return pedidoAModificar;
         }
 
 
