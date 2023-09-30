@@ -7,7 +7,6 @@ namespace webapi
         public AccesoADatosCadeteria(){}
         public  Cadeteria ObtenerCadeteria()
         {
-            var cadeteria = new Cadeteria("default","0800");
             string DataPath = "cadeteria.json";
             try
             {
@@ -15,14 +14,17 @@ namespace webapi
                 string jsonText = File.ReadAllText(DataPath);
 
                 // Deserializa el JSON en una lista de objetos Cadete
-                cadeteria = JsonSerializer.Deserialize<Cadeteria>(jsonText);
+                var cadeteria = JsonSerializer.Deserialize<Cadeteria>(jsonText);
                 Console.WriteLine("Cadeteria cargada correctamente");
+                Console.WriteLine(cadeteria.Nombre);
+                Console.WriteLine(cadeteria.Telefono );
+                return cadeteria;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al cargar Cadeteria desde el archivo JSON: {ex.Message}");
             }
-            return cadeteria;
+            return null;
         }
     }
     public class AccesoADatosCadetes
@@ -89,7 +91,7 @@ namespace webapi
     }
 }
 
-/*Por si trabajo con listado de cadeterias
+/*Por si trabajo con listado de
 [
     {
         "nombre": "Cadeteria 1",
