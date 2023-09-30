@@ -5,9 +5,10 @@ namespace webapi
     {
         private string dataPath;
         public string DataPath { get => dataPath; set => dataPath = value; }
-        public AccesoADatos(string DirArchivo)
+        public AccesoADatos()
         {
-            DataPath = DirArchivo;
+            //No van los puntos .../
+            DataPath = "cadetes.json";
         }
 
         /*public virtual List<Cadete> cargarCadetes()
@@ -19,7 +20,7 @@ namespace webapi
     }
     public class AccesoCSV : AccesoADatos
     {
-        public AccesoCSV(string DirArchivo) : base(DirArchivo)
+        public AccesoCSV() : base()
         {
         }     
         public override List<Cadete> cargarCadetes()
@@ -36,7 +37,7 @@ namespace webapi
     }
     public class AccesoJSON : AccesoADatos
     {
-        public AccesoJSON(string DirArchivo) : base(DirArchivo)
+        public AccesoJSON() : base()
         {
         }     
         public override List<Cadete> cargarCadetes()

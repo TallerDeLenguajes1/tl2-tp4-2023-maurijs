@@ -2,7 +2,7 @@ namespace webapi
 {
     public class Cadeteria
     {
-        private static Cadeteria cadeteriaSingleTon;
+        private static Cadeteria instance;
         private string nombre;
         private string telefono;
         private List<Cadete> listadoCadetes;
@@ -31,13 +31,15 @@ namespace webapi
 
         //Metodos
 
-        public static Cadeteria GetCadeteria()
+        public static Cadeteria GetInstance()
         {
-            if (cadeteriaSingleTon == null)
+            if (instance == null)
             {
-                cadeteriaSingleTon = new Cadeteria("Nombre Cadeteria","3858404142");
+                instance = new Cadeteria("Nombre Cadeteria","3858404142");
+                var Acceso = new AccesoJSON();
+                instance.ListadoCadetes = Acceso.cargarCadetes();
             }
-            return cadeteriaSingleTon;
+            return instance;
         }
 
         public void CrearPedido(int numero, float monto, string observacion,string nombre, string telefono, string direccion, string referenciaDireccion)
