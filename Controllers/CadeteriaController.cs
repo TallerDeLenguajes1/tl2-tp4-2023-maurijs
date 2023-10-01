@@ -66,7 +66,6 @@ public class CadeteriaController : ControllerBase
     {
     
         var pedidoModificado = cadeteria.ModificarPedido(pedido);
-        cadeteria.GuardarPedidos();
         return Ok(pedidoModificado);
     }
 
@@ -74,7 +73,6 @@ public class CadeteriaController : ControllerBase
     public ActionResult<Informe> GetInforme()
     {
         var informe = new Informe(cadeteria);
-        informe.MostrarInfCompleto();
         return Ok(informe);
     }   
 
@@ -82,21 +80,18 @@ public class CadeteriaController : ControllerBase
     public ActionResult<Pedido> AsignarPedido(int idPedido, int idCadete)
     {
         var pedido = cadeteria.AsignarCadeteAPedido(idPedido, idCadete);
-        cadeteria.GuardarPedidos();
         return Ok(pedido);
     }
     [HttpPut("CambiarEstadoPedido")]
     public ActionResult<Pedido> CambiarEstadoPedido(int idPedido, int NuevoEstado)
     {
         var pedidoCambiado = cadeteria.CambiarEstadoPedido(idPedido, NuevoEstado);
-        cadeteria.GuardarPedidos();
         return Ok(pedidoCambiado);
     }
     [HttpPut("CambiarCadetePedido")]
     public ActionResult<Pedido> CambiarCadetePedido(int idPedido,int idNuevoCadete)
     {
         var pedido = cadeteria.ReasignarPedido(idPedido, idNuevoCadete);
-        cadeteria.GuardarPedidos();
         return Ok(pedido);
     }
 }

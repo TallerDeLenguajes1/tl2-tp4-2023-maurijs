@@ -72,12 +72,14 @@ namespace webapi
             
             ListadoPedidos.Add(P);
             P.Numero = ListadoPedidos.Count;
+            GuardarPedidos();
             return P;
         }
          public Pedido ModificarPedido(Pedido pedido)
         {
             var pedidoAModificar = GetPedidoByID(pedido.Numero);
             pedidoAModificar.Observacion =  pedido.Observacion;
+            GuardarPedidos();
             return pedidoAModificar;
         }
 
@@ -87,6 +89,7 @@ namespace webapi
             var pedido = GetPedidoByID(NumPedido);
             var cadete = GetCadeteByID(IDcadete);
             pedido.Cadete = cadete;
+            GuardarPedidos();
             return pedido;
         } 
 
@@ -103,6 +106,7 @@ namespace webapi
                     pedido.Cadete = cadete;
                 }
             }
+            GuardarPedidos();
             return pedido;
         }
 
@@ -110,16 +114,19 @@ namespace webapi
         {
             var pedido = GetPedidoByID(NumPedido);
             pedido.Estado = Estado.Aceptado;
+            GuardarPedidos();
         }
         public void CancelarPedido(int NumPedido) 
         {
             var pedido = GetPedidoByID(NumPedido);
             pedido.Estado = Estado.Cancelado;
+            GuardarPedidos();
         }
         public void PedidoEntregado(int NumPedido) 
         {
             var pedido = GetPedidoByID(NumPedido);
             pedido.Estado = Estado.Recibido;
+            GuardarPedidos();
         }
         public Pedido CambiarEstadoPedido(int idPedido, int NuevoEstado)
         {
@@ -136,6 +143,7 @@ namespace webapi
                         break;
                 }
             }
+            GuardarPedidos();
             return pedido;
         }
 

@@ -10,6 +10,7 @@ namespace webapi
         public string Nombre { get => nombre; set => nombre = value; }
         public string Telefono { get => telefono; set => telefono = value; }
         public string Direccion { get => direccion; set => direccion = value; }
+        public Cadete(){}
         public Cadete(int id, string nombre, string direccion, string telefono)
         {
             this.id = id;

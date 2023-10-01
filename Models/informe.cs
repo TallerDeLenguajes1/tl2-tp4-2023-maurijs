@@ -15,6 +15,10 @@ namespace webapi
         public float MontoTotalGanado { get => montoTotalGanado; set => montoTotalGanado = value; }
         public Informe(Cadeteria cadeteria) {
             this.cadeteria = cadeteria;
+            cantTotalEnvios = 0;
+            montoTotalGanado = 0;
+            AddListadoData();
+            CalcularPromedio();
         }
         private void AddCadeteData(int IdCadete)
         {
@@ -62,10 +66,6 @@ namespace webapi
 
         public void MostrarInfCompleto()
         {
-            cantTotalEnvios = 0;
-            montoTotalGanado = 0;
-            AddListadoData();
-            CalcularPromedio();
             MostrarInfCadeteria();
             MostrarInfListCadetes();
         }
