@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace webapi.Controllers;
 
 //Para c# estos serian los "atributos", y a los atributos de la clase se los conocen como campos
-[ApiController]
-[Route("[controller]")]
+[ApiController] //atributo que se aplica sobre un controlador 
+[Route("[controller]")] //es la ruta de acceso a este controlador, [controller] quiere decir que la ruta sera CadeteriaController
+                        //Todos los verbos GET, PUT, etc estan dentro de esta clase
 public class CadeteriaController : ControllerBase
 {
     // el objeto quedara guardado para seguir trabajandolo
@@ -39,8 +40,13 @@ public class CadeteriaController : ControllerBase
             return NotFound(); // Devuelve una respuesta HTTP 404 Not Found
         }
     }
-    [HttpGet]
-    [Route("Cadetes")]
+    [HttpGet("pedido/{id}")]
+    
+    public ActionResult<Pedido> GetPedido(int id)
+    {
+        return Ok(cadeteria.GetPedidoByID(id));
+    }
+    [HttpGet("Cadetes")]
     public ActionResult<IEnumerable<Cadete>> GetCadetes()
     {
         var cadetes = cadeteria.ListadoCadetes;
@@ -53,12 +59,26 @@ public class CadeteriaController : ControllerBase
             return NotFound(); // Devuelve una respuesta HTTP 404 Not Found
         }
     }
+
+    [HttpGet("Cadete/{id}")] // no me apareceran los parametros en el postman, tengo q agregarlos en el url
+    // escribir el parametro en la ruta hace que sea obligatorio mandar un parametro
+    public ActionResult<Pedido> GetCadete(int id)
+    {
+        return Ok(cadeteria.GetCadeteByID(id));
+    }
+
     [HttpPost("AddPedido")]
-    //[HttpPost("AddPedido/Pedido={pedido}")]
     public ActionResult<Pedido> AgregarPedido(Pedido pedido)
     {
         var nuevoPedido = cadeteria.CrearPedido(pedido);
         return Ok(nuevoPedido);
+    }
+
+    [HttpPost("AddCadete")]
+    public ActionResult<Pedido> AgregarCadete(Cadete cadete)
+    {
+        cadete = cadeteria.CrearCadete(cadete);
+        return Ok(cadete);
     }
 
     [HttpPut("UpdatePedido")]
@@ -76,7 +96,8 @@ public class CadeteriaController : ControllerBase
         return Ok(informe);
     }   
 
-    [HttpPut("AsignarPedido")]
+    [HttpPut("AsignarPedido")] //si no incluyo los parametros en la ruta si me apareceran en el postman ya que lo que haria seria
+                               // cargarlos por formulario
     public ActionResult<Pedido> AsignarPedido(int idPedido, int idCadete)
     {
         var pedido = cadeteria.AsignarCadeteAPedido(idPedido, idCadete);

@@ -45,7 +45,10 @@ namespace webapi
         {
             accesoADatosPedidos.Guardar(ListadoPedidos);
         }       
- 
+        public void GuardarCadetes()
+        {
+            accesoADatosCadetes.Guardar(ListadoCadetes);
+        }    
         public static Cadeteria GetInstance()
         {
             if (instance == null)
@@ -66,6 +69,8 @@ namespace webapi
             var cliente = new Cliente(nombre, telefono, direccion, referenciaDireccion);
             var pedido = new Pedido(numero, monto, observacion, Estado.Aceptado, cliente);
             listadoPedidos.Add(pedido);
+            pedido.Numero = ListadoPedidos.Count;
+            GuardarPedidos();
         }
         public Pedido CrearPedido(Pedido P)
         {
@@ -75,15 +80,28 @@ namespace webapi
             GuardarPedidos();
             return P;
         }
-         public Pedido ModificarPedido(Pedido pedido)
+        public Cadete CrearCadete(string nombre, string telefono, string direccion, int id)
+        {
+            var cadete = new Cadete(id, nombre, telefono, direccion);
+            listadoCadetes.Add(cadete);
+            cadete.Id = listadoCadetes.Count;
+            GuardarCadetes();
+            return cadete;
+        }
+        public Cadete CrearCadete(Cadete cadete)
+        {
+            listadoCadetes.Add(cadete);
+            cadete.Id = listadoCadetes.Count;
+            GuardarCadetes();
+            return cadete;
+        }
+        public Pedido ModificarPedido(Pedido pedido)
         {
             var pedidoAModificar = GetPedidoByID(pedido.Numero);
             pedidoAModificar.Observacion =  pedido.Observacion;
             GuardarPedidos();
             return pedidoAModificar;
         }
-
-
         public Pedido AsignarCadeteAPedido(int NumPedido, int  IDcadete)
         {
             var pedido = GetPedidoByID(NumPedido);

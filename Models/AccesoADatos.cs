@@ -50,6 +50,19 @@ namespace webapi
 
             return cadetes;
         }
+        public void Guardar(List<Cadete> cadetes)
+        {  
+            string DataPath = "cadetes.json";
+            string jsonText = JsonSerializer.Serialize(cadetes);
+            using (var archivo = new FileStream(DataPath, FileMode.OpenOrCreate))
+            {
+                using (var strWriter = new StreamWriter(archivo))
+                {
+                    strWriter.WriteLine("{0}", jsonText);
+                    strWriter.Close();
+                }
+            }
+        }
     }
     public class AccesoADatosPedidos
     { 
